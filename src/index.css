@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .aligen-content {
+    @apply max-w-6xl m-auto px-6;
+  }
+
+}
