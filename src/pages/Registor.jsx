@@ -71,7 +71,7 @@ function Registor() {
                 <IoCreate /> Registor
               </button>
             ) : (
-              <button disabled className="btn btn-info w-full mt-5 ">
+              <button disabled className="btn btn-disabled w-full mt-5 ">
                 <IoCreate /> Loading..
               </button>
             )}

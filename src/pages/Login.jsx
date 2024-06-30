@@ -47,7 +47,7 @@ function Login() {
               plecholder="••••••••"
             />
             {isPending ? (
-              <button disabled className="btn btn-disabled">
+              <button disabled className="btn btn-disabled w-full mt-5">
                 Loading...
               </button>
             ) : (
