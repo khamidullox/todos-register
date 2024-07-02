@@ -16,6 +16,8 @@ import ProtectRuter from "./components/ProtectRuter";
 //action
 import { action as registorAction } from "./pages/Registor";
 import { action as loginAction } from "./pages/Login";
+import { action as actionHome } from "./pages/Home";
+/// loader
 function App() {
   const { user } = useSelector((state) => state.user);
 
@@ -31,6 +33,7 @@ function App() {
         {
           index: true,
           element: <Home />,
+          action: actionHome,
         },
       ],
     },

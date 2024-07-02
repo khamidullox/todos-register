@@ -2,10 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../app/userSlice";
+import toast from "react-hot-toast";
 function Navbar() {
   let { user } = useSelector((state) => state.user);
   let dispetch = useDispatch();
-  console.log(user);
   return (
     <header className="navbar bg-base-100">
       <div className="navbar-start">
@@ -54,13 +54,14 @@ function Navbar() {
       </div>
       <div className="navbar-end gap-10">
         <div className="avatar">
-          <div className="  rounded-full ring ring-offset-2 size-16 object-cover">
+          <div className="  rounded-full ring ring-offset-2 size-12 object-cover">
             <img src={user.photoURL} className=" object-cover" />
           </div>
         </div>
 
         <button
           onClick={() => {
+            toast.success(`Bye Bye ${user.displayName} `);
             dispetch(logout(user));
           }}
           className="btn"

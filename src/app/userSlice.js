@@ -24,12 +24,14 @@ let userSlice = createSlice({
       state.user = isAuthChange;
       userSlice.caseReducers.setLocal(state);
     },
+
     setLocal: (state) => {
       localStorage.setItem("user", JSON.stringify(state));
     },
   },
 });
 
-export let { isAuthChange, login, logout } = userSlice.actions;
+export let { isAuthChange, login, logout, errorInputAction } =
+  userSlice.actions;
 
 export default userSlice.reducer;

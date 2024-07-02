@@ -5,4 +5,11 @@ export let store = configureStore({
   reducer: {
     user: userReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["user/login", "user/logout"],
+        ignoredPaths: ["user.user"],
+      },
+    }),
 });

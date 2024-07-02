@@ -1,5 +1,9 @@
 //firebase
-import { signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  updateProfile,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 import { auth } from "../firebase/firebaseConfige";
 
 //react
@@ -32,5 +36,16 @@ export let useLogin = () => {
       setIsPending(false);
     }
   };
-  return { isPending, loginUser };
+  let resetPassword = async ({ email }) => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        toast.success("Password reset email sent!");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        toast.error(errorMessage);
+      });
+  };
+  return { isPending, loginUser, resetPassword };
 };

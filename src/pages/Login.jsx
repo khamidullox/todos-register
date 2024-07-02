@@ -1,6 +1,6 @@
 import { Form, Link, useActionData } from "react-router-dom";
 import FormInput from "../components/FormInput";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { LuLogIn } from "react-icons/lu";
 import { IoLogoGoogle } from "react-icons/io5";
 import { useLogin } from "../hooks/useLogin";
@@ -13,18 +13,27 @@ export let action = async ({ request }) => {
 };
 function Login() {
   let data = useActionData();
-  let { isPending, loginUser } = useLogin();
+  let { isPending, loginUser, resetPassword } = useLogin();
+
+  let [sendEmail, setSendEmail] = useState(true);
+
   useEffect(() => {
     if (data) {
-      loginUser(data);
+      let { email, password } = data;
+      if (email && password) {
+        loginUser(data);
+      } else if (email && password == null) {
+        resetPassword(data);
+      }
     }
   }, [data]);
+
   let { handleGoogle } = useGoogle();
   return (
     <>
       <video
-        autoPlay
-        loop
+        // autoPlay
+        // loop
         muted
         className=" bg-cover h-screen absolute -z-10 opacity-70 object-cover w-full "
         src="/bg-registor.mp4"
@@ -42,33 +51,43 @@ function Login() {
               plecholder="exemple@gmail.com"
               name="email"
             />
-            <FormInput
-              type="password"
-              lebal="Password"
-              name="password"
-              plecholder="••••••••"
-            />
-            {isPending ? (
-              <button disabled className="btn btn-disabled w-full mt-5">
-                Loading...
-              </button>
+            {sendEmail && (
+              <FormInput
+                type="password"
+                lebal="Password"
+                name="password"
+                plecholder="••••••••"
+              />
+            )}
+            {sendEmail ? (
+              isPending ? (
+                <button disabled className="btn btn-disabled w-full mt-5">
+                  Loading...
+                </button>
+              ) : (
+                <button className="btn btn-primary w-full mt-5 ">
+                  <LuLogIn />
+                  Login
+                </button>
+              )
             ) : (
               <button className="btn btn-primary w-full mt-5 ">
                 <LuLogIn />
-                Login
+                Send password
               </button>
             )}
           </Form>
-          <button
-            onClick={() => {
-              handleGoogle();
-            }}
-            className="btn btn-accent w-72"
-          >
-            {" "}
-            <IoLogoGoogle />
-            Google
-          </button>
+          {sendEmail && (
+            <button
+              onClick={() => {
+                handleGoogle();
+              }}
+              className="btn btn-accent w-72"
+            >
+              <IoLogoGoogle />
+              Google
+            </button>
+          )}
           <p>
             Don't have an account?
             <Link
@@ -78,6 +97,18 @@ function Login() {
             >
               Registor
             </Link>
+          </p>
+          <p>
+            Forgot your password?
+            <button
+              onClick={() => {
+                setSendEmail(!sendEmail);
+              }}
+              className=" link link-info"
+            >
+              {" "}
+              {sendEmail ? "Send Password" : "Login"}
+            </button>
           </p>
         </div>
       </div>

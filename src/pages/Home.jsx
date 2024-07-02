@@ -1,40 +1,54 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useEffect } from "react";
+///rrd import
+import { Form, useActionData, useLoaderData } from "react-router-dom/dist";
+//reduz
 import { useSelector } from "react-redux";
-import { useCollection } from "../hooks/useCollection";
+//custom hook
 
+//components
+import FormInput from "../components/FormInput";
+
+import TodoList from "../components/TodoList";
+
+//action
+export let action = async ({ request }) => {
+  let formData = await request.formData();
+  let title = formData.get("title");
+  let complet = formData.get("complet");
+  return { title, complet };
+};
 function Home() {
-  let { user } = useSelector((state) => state.user);
-  let { data } = useCollection("todos", ["uid", "==", user.uid]);
   return (
-    <div className=" aligen-conten">
-      <h1 className=" text-5xl font-bold my-5">Todos</h1>
-      <div className="grid grid-cols-3 gap-20">
-        {data &&
-          data.map((todo, id) => {
-            return (
-              <div
-                key={id}
-                className={`card bg-base-100 w-96 shadow-xl bg-[url('https://thumbs.dreamstime.com/z/to-do-list-white-paper-pencils-background-template-56711188.jpg')] bg-bottom ${
-                  todo.complet && "opacity-50"
-                }`}
-              >
-                <div className="card-body">
-                  <h2 className="card-title py-2">{todo.title}</h2>
-
-                  <div className="card-actions justify-end">
-                    {todo.complet ? (
-                      <button disabled className="btn ">Bajarilgan</button>
-                    ) : (
-                      <button className="btn ">Bagarish kerak</button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        {!data && (
-          <span className="loading loading-ring loading-lg size-36 absolute text-center left-[700px]"></span>
-        )}
+    <div className=" aligen-conten grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 ">
+      <div className=" p-16">
+        <Form
+          method="post"
+          className=" flex items-center justify-center flex-col  w-72 py-10
+          "
+        >
+          <FormInput
+            lebal="Add title"
+            name="title"
+            type="text"
+            plecholder="lernen books"
+          />
+          <div className="form-control mt-5 ">
+            <label className="cursor-pointer label gap-10">
+              <span className="label-text ">Comleted</span>
+              <input
+                type="checkbox"
+                defaultChecked
+                className="checkbox checkbox-accent"
+                name="complet"
+              />
+            </label>
+          </div>
+          <button className="btn btn-primary w-full mt-5">Add</button>
+        </Form>
+      </div>
+      <div className=" flex flex-col my-10 gap-20">
+        <TodoList />
       </div>
     </div>
   );
