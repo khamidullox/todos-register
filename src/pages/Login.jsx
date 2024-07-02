@@ -32,8 +32,8 @@ function Login() {
   return (
     <>
       <video
-        // autoPlay
-        // loop
+        autoPlay
+        loop
         muted
         className=" bg-cover h-screen absolute -z-10 opacity-70 object-cover w-full "
         src="/bg-registor.mp4"
